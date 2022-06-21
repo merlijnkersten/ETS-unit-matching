@@ -4,11 +4,14 @@ import pandas as pd
 # Import list of new and original operators (firms) & installations (facilities)
 
 # Their respective paths:
-path_new = r"C:/Users/Merlijn Kersten/Documents/Univerzita Karlova/new.csv"
-path_original = r"C:/Users/Merlijn Kersten/Documents/Univerzita Karlova/original.csv"
-
+directory = r'path_to_directory'
+path_original = directory + "original ets units.csv"
+path_new = directory + "new ets units.csv"
+output = directory + "matched ets units.csv"
+    
 # The code uses a 'join_insert' string to join the operator name and installation name into one string 
 # TODO: It later uses the 'join_insert' string to split the combined string into an operator name string and installation name string again.
+# Used this as I could not think of any single character that (definitely) is not yet included in any of the names.
 join_insert = ' /314159/ '
 
 # Read the new and original data sets
@@ -48,6 +51,8 @@ def find_most_similar_entries(original, new):
         # Find the most similar entry 
         most_similar = sorted(similarity_score, key=similarity_score.get, reverse=True)[0]
 
+        # TODO find most similar entry in a more elegant manner.
+
         # Save the most similar entry and its similarity score
         most_similar_entries[new_entry] = most_similar
         most_similar_scores[new_entry] = similarity_score[most_similar]
@@ -58,4 +63,4 @@ def find_most_similar_entries(original, new):
     
 find_most_similar_entries(original_combined_pairs, new_combined_pairs)
 
-new_df.to_csv(r"C:/Users/Merlijn Kersten/Documents/Univerzita Karlova/ETS units OUTPUT 3.csv", index=False)
+new_df.to_csv(output, index=False)
